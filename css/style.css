@@ -22,6 +22,9 @@
     font-size: 39px;
     font-weight: bold;
     font-family: 'New Tegomin', serif;
+    top:40%;
+    right: 290px;
+    right:21%;
 }
 
 #hiscoreBox{
@@ -31,6 +34,9 @@
     font-size: 39px;
     font-weight: bold;
     font-family: 'New Tegomin', serif;
+    top:45%;
+    right: 190px;
+    right:12.5%;
 }
 
 #board{
@@ -43,6 +49,7 @@
     grid-template-columns: repeat(25, 1fr);
     position:fixed;
     left:250px;
+    left:17.3%;
 }
 #btn{
     position: fixed;
@@ -113,6 +120,7 @@ form {
     margin: 0 auto;
     text-align: center;
     padding-top: 50px;
+    top:36.5%;
   }
   .value-button {
     color: red;
