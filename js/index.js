@@ -1,10 +1,6 @@
 // Game Constants & Variables
 let inputDir = {x: 0, y: 0}; 
-const foodSound = new Audio('music/food.mp3');
-const gameOverSound = new Audio('music/gameover.mp3');
-const moveSound = new Audio('music/move.mp3');
-const musicSound = new Audio('music/music.mp3');
-//const musicSound = new Audio('music/otnicka.mp3');
+
 let speed = 5;
 let score = 0;
 let lastPaintTime = 0;
@@ -59,19 +55,16 @@ function gameEngine(){
     // Part 1: Updating the snake array & Food
     if(c===0){
     if(isCollide(snakeArr)){
-        gameOverSound.play();
-        musicSound.pause();
+      
         inputDir =  {x: 0, y: 0}; 
         alert("Game Over. Press play to play again!");
         snakeArr = [{x: 13, y: 15}];
-        musicSound.play();
         score = 0; 
         scoreBox.innerHTML = "Score: " + score;
     }
 
     // If you have eaten the food, increment the score and regenerate the food
     if(snakeArr[0].y === food.y && snakeArr[0].x ===food.x){
-        foodSound.play();
         score += 1;
         if(score>hiscoreval){
             hiscoreval = score;
@@ -124,7 +117,6 @@ else{
 
 
 // Main logic starts here
-musicSound.play();
 let hiscore = localStorage.getItem("hiscore");
 if(hiscore === null){
     hiscoreval = 0;
@@ -137,7 +129,6 @@ else{
 let c=0;
 function Play(){
     inputDir = {x: 1, y: 0} // Start the game
-    moveSound.play();
     c=0;
 }
 
