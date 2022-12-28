@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐍 Snake Game 🐍</title>
+    <title>   Hungry Snake 🥚</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="body">
         <div id="title">
-            🐍 Snake Game 🐍
+            Hungry Snake 🥚
         </div>
-        <div id="scoreBox">Score: 0</div>
-        <div id="hiscoreBox">High Score: 0</div>
         <div id="board"></div>
-        <div id="btn">
-            <button id="Play" onclick="Play()">Play</button>
-        </div>
-        <div id="btn2">
-            <button id="Pause" onclick="Pause()">Pause</button>
-        </div>
-        <form>
-            <h2> Select Speed</h2>
-            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
-            <input type="number" id="number" value="5" />
-            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
-          </form>
+<div id="bott">
+    <div id="btn">
+        <button id="Play" onclick="Play()">Play</button>
+    </div>
+    <div id="btn2">
+        <button id="Pause" onclick="Pause()">Pause</button>
+    </div>
+    <form id="btn1">
+        <h3 style="margin-top: 10px; color:rgb(34, 34, 32);background-color: #7EB09B;width: 150px; border: 1px solid black;"> Select Speed</h3>
+        <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+        <input type="number" id="number" value="5" />
+        <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+      </form>
+</div>
         
     </div>
 </body>
