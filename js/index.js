@@ -1,19 +1,47 @@
+const wallArray=[{}];
+for(let i=0;i<5;i++)
+{
+    const maxX=23;
+    const maxY=23;
+    let wallX=Math.ceil(Math.random()*maxX);
+    let wallY=Math.ceil(Math.random()*maxY);
+    wallArray.push({wallX,wallY});
+}
+
+
 // Game Constants & Variables
 let inputDir = {x: 0, y: 0}; 
 
 let speed = 5;
-let score = 0;
 let lastPaintTime = 0;
-let snakeArr = [
-    {x: 13, y: 15}
+let SnakeArray = [
+    {x: 10, y: 10}
 ];
 
-food = {x: 6, y: 7};
+food = {x: 16, y: 8};
+
+function isCollide(snake) {
+    console.log(wallArray);
+    for (let i = 1; i < SnakeArray.length; i++) {
+        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
+            return true;
+        }
+    }
+    if(snake[0].x >= 25 || snake[0].x <=0 || snake[0].y >= 25 || snake[0].y <=0){
+        return true;
+    }
+    for(let i=0;i<5;i++)
+    {
+        if(snake[0].x==wallArray[i].wallX&&snake[0].y==wallArray[i].wallY) return true;
+    }
+        
+    return false;
+}
+
 
 // Game Functions
 function main(ctime) {
     window.requestAnimationFrame(main);
-    // console.log(ctime)
     if((ctime - lastPaintTime)/1000 < 1/speed){
         return;
     }
@@ -21,20 +49,6 @@ function main(ctime) {
     gameEngine();
 }
 
-function isCollide(snake) {
-    // If you bump into yourself 
-    for (let i = 1; i < snakeArr.length; i++) {
-        if(snake[i].x === snake[0].x && snake[i].y === snake[0].y){
-            return true;
-        }
-    }
-    // If you bump into the wall
-    if(snake[0].x >= 25 || snake[0].x <=0 || snake[0].y >= 25 || snake[0].y <=0){
-        return true;
-    }
-        
-    return false;
-}
 function increaseValue() {
     var value = parseInt(document.getElementById('number').value, 10);
     value = isNaN(value) ? 0 : value;
@@ -52,44 +66,31 @@ function increaseValue() {
     speed =value;
   }
 function gameEngine(){
-    // Part 1: Updating the snake array & Food
     if(c===0){
-    if(isCollide(snakeArr)){
+    if(isCollide(SnakeArray)){
       
         inputDir =  {x: 0, y: 0}; 
         alert("Game Over. Press play to play again!");
-        snakeArr = [{x: 13, y: 15}];
-        score = 0; 
-        scoreBox.innerHTML = "Score: " + score;
+        SnakeArray = [{x: 13, y: 15}];
     }
 
-    // If you have eaten the food, increment the score and regenerate the food
-    if(snakeArr[0].y === food.y && snakeArr[0].x ===food.x){
-        score += 1;
-        if(score>hiscoreval){
-            hiscoreval = score;
-            localStorage.setItem("hiscore", JSON.stringify(hiscoreval));
-            hiscoreBox.innerHTML = "High Score: " + hiscoreval;
-        }
-        scoreBox.innerHTML = "Score: " + score;
-        snakeArr.unshift({x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y});
+    if(SnakeArray[0].y === food.y && SnakeArray[0].x ===food.x){
+        SnakeArray.unshift({x: SnakeArray[0].x + inputDir.x, y: SnakeArray[0].y + inputDir.y});
         let a = 2;
         let b = 16;
         food = {x: Math.round(a + (b-a)* Math.random()), y: Math.round(a + (b-a)* Math.random())}
     }
 
-    // Moving the snake
-    for (let i = snakeArr.length - 2; i>=0; i--) { 
-        snakeArr[i+1] = {...snakeArr[i]};
+    for (let i = SnakeArray.length - 2; i>=0; i--) { 
+        SnakeArray[i+1] = {...SnakeArray[i]};
     }
+    
 
-    snakeArr[0].x += inputDir.x;
-    snakeArr[0].y += inputDir.y;
+    SnakeArray[0].x += inputDir.x;
+    SnakeArray[0].y += inputDir.y;
 
-    // Part 2: Display the snake and Food
-    // Display the snake
     board.innerHTML = "";
-    snakeArr.forEach((e, index)=>{
+    SnakeArray.forEach((e, index)=>{
         snakeElement = document.createElement('div');
         snakeElement.style.gridRowStart = e.y;
         snakeElement.style.gridColumnStart = e.x;
@@ -102,10 +103,25 @@ function gameEngine(){
         }
         board.appendChild(snakeElement);
     });
-    // Display the food
+    
+    for(let i=0;i<5;i++)
+    {
+        console.log(wallArray[i]);
+        if(wallArray[i].wallX!=food.x && wallArray[i].wallY!=food.y)
+        {
+            wallEle = document.createElement('div');
+            wallEle.style.gridRowStart =wallArray[i].wallY;
+            wallEle.style.gridColumnStart = wallArray[i].wallX;
+            wallEle.classList.add('wall');
+            wallEle.innerHTML="Wall";
+        
+            board.appendChild(wallEle);
+        }
+    }
     foodElement = document.createElement('div');
     foodElement.style.gridRowStart = food.y;
     foodElement.style.gridColumnStart = food.x;
+
     foodElement.classList.add('food')
     board.appendChild(foodElement);
 }
@@ -116,16 +132,6 @@ else{
 }
 
 
-// Main logic starts here
-let hiscore = localStorage.getItem("hiscore");
-if(hiscore === null){
-    hiscoreval = 0;
-    localStorage.setItem("hiscore", JSON.stringify(hiscoreval))
-}
-else{
-    hiscoreval = JSON.parse(hiscore);
-    hiscoreBox.innerHTML = "High Score: " + hiscore;
-}
 let c=0;
 function Play(){
     inputDir = {x: 1, y: 0} // Start the game
@@ -135,8 +141,7 @@ function Play(){
 function Pause(){
    c=1;
    alert("you paused the game,Press Play to continue");
-   board.innerHTML = "";
-   snakeArr.forEach((e, index)=>{
+   SnakeArray.forEach((e, index)=>{
        snakeElement = document.createElement('div');
        snakeElement.style.gridRowStart = e.y;
        snakeElement.style.gridColumnStart = e.x;
